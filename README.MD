@@ -8,14 +8,14 @@ BackupS3 est un projet conçu pour faciliter la sauvegarde et la gestion des fic
 ## Fonctionnalités
 
 - Sauvegarde automatique des fichiers vers un bucket S3.
+- Suppression automatique après Upload
 - Gestion des versions des fichiers sauvegardés.
-- Restauration facile des fichiers depuis S3.
 - Configuration simple et personnalisable.
 
 ## Prérequis
 
-- PHP >= 7.4
-- Composer
+- Node >= v16.20.2
+- Mysql
 - Un compte AWS avec un bucket S3 configuré.
 
 ## Installation

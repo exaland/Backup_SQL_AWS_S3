@@ -13,7 +13,7 @@ const s3Client = new S3Client({
 });
 
 const bucketName = process.env.AWS_BUCKET_NAME;
-const backupFileName = `backup_your_project_${Date.now()}.sql`;
+const backupFileName = `${process.env.BACKUP_FILE_NAME}${Date.now()}.sql`;
 const backupFilePath = process.env.BACKUP_FILE_PATH;
 const backupFileKey = `${backupFileName}`;
 
@@ -60,10 +60,25 @@ const uploadBackupToS3 = async () => {
     }
 };
 
+const deleteBackupFile = () => {
+    return new Promise((resolve, reject) => {
+        fs.unlink(backupFileName, (err) => {
+            if (err) {
+                console.error(`Error deleting backup file: ${err}`);
+                reject(err);
+            } else {
+                console.log(`Backup file deleted: ${backupFileName}`);
+                resolve();
+            }
+        });
+    });
+}
+
 const runBackupProcess = async () => {
     try {
         await mysqlDump();
         await uploadBackupToS3();
+        await deleteBackupFile();
         console.log("Backup process completed successfully.");
     } catch (error) {
         console.error("Error during backup process:", error);
